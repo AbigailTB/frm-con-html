@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <h2>Validación de Campos en Formularios HTML con Expresiones Regulares</h2>
+    <style>
+        h2 {
+            text-align: center;
+        }
+    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario de Registro</title>
+    <style>
+        form {
+            max-width: 400px;
+            margin: auto;
+        }
+        label {
+            display: block;
+            margin-top: 10px;
+        }
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            box-sizing: border-box;
+        }
+        .error {
+            color: red;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <form action="/submit" method="post" id="formularioRegistro" novalidate>
+        <label for="nombreUsuario">Nombre de usuario:</label>
+        <input type="text" id="nombreUsuario" name="nombreUsuario" pattern="^[a-zA-Z0-9]{5,15}$" aria-describedby="nombreUsuarioError" required>
+        <span class="error" id="nombreUsuarioError" aria-live="polite"></span>
+
+        <label for="contrasena">Contraseña:</label>
+        <input type="password" id="contrasena" name="contrasena" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{8,}$" aria-describedby="contrasenaError" required>
+        <span class="error" id="contrasenaError" aria-live="polite"></span>
+
+        <label for="correoElectronico">Correo Electrónico:</label>
+        <input type="email" id="correoElectronico" name="correoElectronico" aria-describedby="correoElectronicoError" required>
+        <span class="error" id="correoElectronicoError" aria-live="polite"></span>
+
+        <label for="numeroTelefono">Número de Teléfono:</label>
+        <input type="tel" id="numeroTelefono" name="numeroTelefono" pattern="^\+[1-9]\d{1,14}$" aria-describedby="numeroTelefonoError" required>
+        <span class="error" id="numeroTelefonoError" aria-live="polite"></span>
+
+        <label for="fechaNacimiento">Fecha de Nacimiento:</label>
+        <input type="date" id="fechaNacimiento" name="fechaNacimiento" aria-describedby="fechaNacimientoError" required>
+        <span class="error" id="fechaNacimientoError" aria-live="polite"></span>
+
+        <label for="codigoPostal">Código Postal:</label>
+        <input type="text" id="codigoPostal" name="codigoPostal" pattern="^\d{5}$" aria-describedby="codigoPostalError" required>
+        <span class="error" id="codigoPostalError" aria-live="polite"></span>
+
+        <button type="submit">Registrar</button>
+    </form>
+
+    <script>
+        document.getElementById('formularioRegistro').addEventListener('submit', function(event) {
+            var isValid = true;
+
+            var nombreUsuario = document.getElementById('nombreUsuario');
+            if (!nombreUsuario.checkValidity()) {
+                document.getElementById('nombreUsuarioError').textContent = 'El nombre de usuario debe tener entre 5 y 15 caracteres alfanuméricos.';
+                isValid = false;
+            } else {
+                document.getElementById('nombreUsuarioError').textContent = '';
+            }
+
+            var contrasena = document.getElementById('contrasena');
+            if (!contrasena.checkValidity()) {
+                document.getElementById('contrasenaError').textContent = 'La contraseña debe tener al menos 8 caracteres, incluyendo al menos una letra mayúscula, una minúscula, un número y un carácter especial.';
+                isValid = false;
+            } else {
+                document.getElementById('contrasenaError').textContent = '';
+            }
+
+            var correoElectronico = document.getElementById('correoElectronico');
+            if (!correoElectronico.checkValidity()) {
+                document.getElementById('correoElectronicoError').textContent = 'Debe ser una dirección de correo electrónico válida.';
+                isValid = false;
+            } else {
+                document.getElementById('correoElectronicoError').textContent = '';
+            }
+
+            var numeroTelefono = document.getElementById('numeroTelefono');
+            if (!numeroTelefono.checkValidity()) {
+                document.getElementById('numeroTelefonoError').textContent = 'El número de teléfono debe seguir el formato internacional, comenzando con el signo + y hasta 15 dígitos.';
+                isValid = false;
+            } else {
+                document.getElementById('numeroTelefonoError').textContent = '';
+            }
+
+            var fechaNacimiento = document.getElementById('fechaNacimiento');
+            if (!fechaNacimiento.checkValidity()) {
+                document.getElementById('fechaNacimientoError').textContent = 'Debe estar en el formato YYYY-MM-DD.';
+                isValid = false;
+            } else {
+                document.getElementById('fechaNacimientoError').textContent = '';
+            }
+
+            var codigoPostal = document.getElementById('codigoPostal');
+            if (!codigoPostal.checkValidity()) {
+                document.getElementById('codigoPostalError').textContent = 'El código postal debe consistir en exactamente 5 dígitos.';
+                isValid = false;
+            } else {
+                document.getElementById('codigoPostalError').textContent = '';
+            }
+
+            if (!isValid) {
+                event.preventDefault();
+            }
+        });
+    </script>
+</body>
+</html>
